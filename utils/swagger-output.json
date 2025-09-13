@@ -1,0 +1,341 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Contact341 REST API",
+        "description": "CSE 341 Week 01/02 Contacts API"
+    },
+    "host": "localhost:5341",
+    "basePath": "/",
+    "schemes": ["http", "https"],
+    "paths": {
+        "/": {
+            "get": {
+                "description": "say hello",
+                "produces": ["text/plain"],
+                "responses": {
+                    "200": {
+                        "description": "Hello World"
+                    }
+                }
+            }
+        },
+        "/contacts/": {
+            "post": {
+                "tags": ["contact"],
+                "description": "create a contact",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "firstName": {
+                                    "example": "any"
+                                },
+                                "lastName": {
+                                    "example": "any"
+                                },
+                                "email": {
+                                    "example": "any"
+                                },
+                                "favoriteColor": {
+                                    "example": "any"
+                                },
+                                "birthday": {
+                                    "example": "any"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "new contact added",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": false,
+                                    "success": true,
+                                    "id": "string"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "missing required parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": false,
+                                    "success": false,
+                                    "data": "malformed request: missing <parameter|parameters...>"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "server threw an error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": true,
+                                    "success": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["contact"],
+                "description": "get all contacts",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "all contacts returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": false,
+                                    "success": true,
+                                    "count": 1,
+                                    "data": [
+                                        {
+                                            "_id": "string",
+                                            "firstName": "string",
+                                            "lastName": "string",
+                                            "email": "string",
+                                            "favoriteColor": "string",
+                                            "birthday": "string"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "server threw an error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": true,
+                                    "success": false,
+                                    "count": 0,
+                                    "data": null
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contacts/{id}": {
+            "get": {
+                "tags": ["contact"],
+                "description": "get a contact by id",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "contact id to lookup"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "contact returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": false,
+                                    "success": true,
+                                    "data": {
+                                        "_id": "string",
+                                        "firstName": "string",
+                                        "lastName": "string",
+                                        "email": "string",
+                                        "favoriteColor": "string",
+                                        "birthday": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "contact not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": false,
+                                    "success": false,
+                                    "data": "contact not found"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "malformed id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": false,
+                                    "success": false,
+                                    "data": "malformed id"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "server threw an error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": true,
+                                    "success": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["contact"],
+                "description": "update a contact by id",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "firstName": {
+                                    "example": "any"
+                                },
+                                "lastName": {
+                                    "example": "any"
+                                },
+                                "email": {
+                                    "example": "any"
+                                },
+                                "favoriteColor": {
+                                    "example": "any"
+                                },
+                                "birthday": {
+                                    "example": "any"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "contact updated"
+                    },
+                    "304": {
+                        "description": "contact would have no changes"
+                    },
+                    "404": {
+                        "description": "contact not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": false,
+                                    "success": false,
+                                    "data": "contact not found"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "malformed id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": false,
+                                    "success": false,
+                                    "data": "malformed id"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "server threw an error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": true,
+                                    "success": false
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["contact"],
+                "description": "delete a contact by id",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "contact succesfully deleted"
+                    },
+                    "404": {
+                        "description": "contact not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": false,
+                                    "success": false,
+                                    "data": "contact not found"
+                                }
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "malformed id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": false,
+                                    "success": false,
+                                    "data": "malformed ID"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "server threw an error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "error": true,
+                                    "success": false
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

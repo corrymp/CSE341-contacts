@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact API Interface</title>
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQIW2NgAAIAAAUAAR4f7BQAAAAASUVORK5CYII=">
+    <style>
+        *,
+        ::before,
+        ::after {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+        }
+
+        textarea {
+            white-space: pre-wrap;
+            flex: 1
+        }
+
+        div:first-of-type {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        div:last-of-type {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            text-align: right;
+            margin: .66em;
+        }
+
+        button {
+            padding: .33em .66em;
+            flex: 1;
+        }
+
+        label,
+        input {
+            padding: .166em .33em;
+            border-color: #0007
+        }
+
+        div :where(label, input):nth-of-type(2n) {
+            background: #00000010;
+        }
+    </style>
+</head>
+
+<body>
+    <textarea id="out"></textarea>
+
+    <div>
+        <button onclick="create()">Create / POST</button>
+        <button onclick="read()">Read / GET</button>
+        <button onclick="update()">Update / PUT</button>
+        <button onclick="_delete()">Delete / DELETE</button>
+    </div>
+
+    <div>
+        <label for="id">id</label>
+        <input type="text" id="id">
+
+        <label for="firstName">first name</label>
+        <input type="text" id="firstName">
+
+        <label for="lastName">last name</label>
+        <input type="text" id="lastName">
+
+        <label for="email">email</label>
+        <input type="text" id="email">
+
+        <label for="favoriteColor">favorite color</label>
+        <input type="text" id="favoriteColor">
+
+        <label for="birthday">birthday</label>
+        <input type="text" id="birthday">
+    </div>
+
+    <script>
+        const url = 'http://localhost:5342/contacts';
+        const idUrl = () => url + '/' + id.value;
+
+        const request = method => ({ method, headers: { 'Content-Type': 'application/json' }, body: method === 'DELETE' ? undefined : JSON.stringify({ "firstName": firstName.value, "lastName": lastName.value, "email": email.value, "favoriteColor": favoriteColor.value, "birthday": birthday.value }) });
+
+        const create = async () => out.textContent = JSON.stringify(await (await fetch(url, request('POST'))).json(), null, 4);
+        const read = async () => out.textContent = JSON.stringify(await (await fetch(id.value ? idUrl() : url)).json(), null, 4);
+        const update = async () => out.textContent = JSON.stringify(await (await fetch(idUrl(), request('PUT'))).json(), null, 4);
+        const _delete = async () => out.textContent = JSON.stringify(await (await fetch(idUrl(), request('DELETE'))).json(), null, 4);
+    </script>
+</body>
+
+</html>

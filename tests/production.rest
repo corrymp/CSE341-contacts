@@ -1,0 +1,30 @@
+### create/post
+POST https://cmp-cse341-contacts.onrender.com/contacts HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Test",
+    "lastName": "Testerson",
+    "email": "test@test.test",
+    "favoriteColor": "test",
+    "birthday": "te-st-test"
+}
+
+### read/get
+GET https://cmp-cse341-contacts.onrender.com/contacts/<id>
+
+### read/get all
+GET https://cmp-cse341-contacts.onrender.com/contacts
+
+### update/put
+PUT https://cmp-cse341-contacts.onrender.com/contacts/<id> HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName": "Testmund",
+    "email": "testing@test.test",
+    "birthday": "73-27-7327"
+}
+
+### delete
+DELETE https://cmp-cse341-contacts.onrender.com/contacts/<id>

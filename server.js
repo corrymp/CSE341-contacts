@@ -2,7 +2,7 @@ require('dotenv').config();
 const port = process.env.PORT;
 const bodyParser = require('body-parser');
 
-require('./db/connect').init((err, mongodb) => {
+require('./db/connect').init(err => {
     if (err) return console.error(err);
 
     require('express')()
@@ -16,18 +16,20 @@ require('./db/connect').init((err, mongodb) => {
             next();
         })
 
+        .use(require('cors')({ origin: '*' }))
+
         // middleware
         .use(bodyParser.json())
         .use(bodyParser.urlencoded({ extended: true }))
 
         // router
-        .use(require('./routes'))
+        .use(/* require('./utils').handleErrors( */ require('./routes') /* ) */)
 
         // 404 route
         .use((req, res, next) => next({ status: 404, message: '404' }))
 
         // error handler
-        .use((err, req, res, next) => {
+        .use((err, req, res) => {
             if (err.status !== 404) console.error(`An error occured whilst accessing "${req.originalUrl}":`, err.message);
             res.status(err.status ?? 500).send(err.message);
         })
