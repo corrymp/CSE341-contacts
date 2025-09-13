@@ -1,4 +1,3 @@
-require('dotenv').config();
 const port = process.env.PORT;
 const bodyParser = require('body-parser');
 
@@ -23,7 +22,7 @@ require('./db/connect').init(err => {
         .use(bodyParser.urlencoded({ extended: true }))
 
         // router
-        .use(/* require('./utils').handleErrors( */ require('./routes') /* ) */)
+        .use(require('./routes'))
 
         // 404 route
         .use((req, res, next) => next({ status: 404, message: '404' }))
